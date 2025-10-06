@@ -15,7 +15,7 @@ const GameOptions = ({ getResult, getRandomChoice }: IGameOptionsProps) => {
 
   useEffect(() => {
     fetchOptions();
-  }, []);
+  }, [fetchOptions]);
 
   return options.length ? (
     <div className="middle">
