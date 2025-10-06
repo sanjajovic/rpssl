@@ -21,6 +21,7 @@ const GameBoard = () => {
   const { rounds, updateScore, users, resetGame, scoreboard } = useBoard();
   const [outcome, setOutcome] = useState<IPlayResponse | undefined>(undefined);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const getRandomChoice = async () => {
     setOutcome(undefined);
@@ -54,9 +55,9 @@ const GameBoard = () => {
       <Button
         text="Reset"
         onClick={() => {
-          resetGame();
-          setOutcome(undefined);
+          setShowAlert(true);
         }}
+        disabled={scoreboard.length<1}
         customStyle="col-start-1 row-start-1 justify-self-start self-start"
       />
       <Button
@@ -146,6 +147,26 @@ const GameBoard = () => {
           )}
         </div>
       </Modal>
+
+      <Modal isOpen={showAlert} onClose={() => setShowAlert(false)}>
+        <div className="text-center">
+          <h2 className="text-3xl font-semibold mb-8">
+            Are you sure you want to delete all results?
+          </h2>
+          <div className="flex justify-end gap-3">
+            <Button
+              text="Delete"
+              onClick={() => {
+                resetGame();
+                setOutcome(undefined);
+                setShowAlert(false)
+              }}
+            />
+            <Button text="Cancel" onClick={() => setShowAlert(false)} />
+          </div>
+        </div>
+      </Modal>
+
     </div>
   );
 };
