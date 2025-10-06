@@ -11,14 +11,16 @@ import { postPlay } from "../api/post-play";
 import { fetchChoice } from "../api/get-choice";
 //STORE
 import { useBoard } from "../store/boardStore";
-//CONSTANTS
-import { reset, rules } from "../constants/motionStyles";
 //TYPES
 import { IChoiceResponse, IPlayResponse } from "../api/types";
+import Modal from "./modal";
+import React from "react";
+import Button from "./button";
 
 const GameBoard = () => {
-  const { rounds, increaseRound, updateScore, users, resetGame } = useBoard();
+  const { rounds, updateScore, users, resetGame, scoreboard } = useBoard();
   const [outcome, setOutcome] = useState<IPlayResponse | undefined>(undefined);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const getRandomChoice = async () => {
     setOutcome(undefined);
@@ -32,7 +34,6 @@ const GameBoard = () => {
     setOutcome(undefined);
     try {
       await postPlay(choiceId).then((res: IPlayResponse | undefined) => {
-        increaseRound();
         setOutcome(res);
         updateScore(res?.results!);
       });
@@ -46,29 +47,32 @@ const GameBoard = () => {
       <div className="score-text">
         <p className="md:p-5 text-3xl md:text-4xl lg:text-5xl">
           Round: {rounds} <br />
-          Score: {users[1]?.score} - {users[0]?.score} 
+          Score: {users[1]?.score} - {users[0]?.score}
         </p>
       </div>
-      <motion.div
-        whileHover={{ scale: 1.1 }}
-        style={reset}
+
+      <Button
+        text="Reset"
         onClick={() => {
           resetGame();
           setOutcome(undefined);
         }}
-      >
-        Reset
-      </motion.div>
-      <motion.a
-        href="https://www.samkass.com/theories/RPSSL.html"
-        target="_blank"
-        rel="noopener noreferrer"
-        whileHover={{ scale: 1.1 }}
-        style={rules}
-        className="text-md md:text-5xl"
-      >
-        Rules <FaExternalLinkAlt />
-      </motion.a>
+        customStyle="col-start-1 row-start-1 justify-self-start self-start"
+      />
+      <Button
+        text="Rules"
+        link="https://www.samkass.com/theories/RPSSL.html"
+        customStyle="col-start-3 row-start-1 justify-self-end self-start"
+        icon={<FaExternalLinkAlt />}
+      />
+      <Button
+        text="Scoreboard"
+        onClick={() => {
+          setIsOpen(true);
+        }}
+        customStyle="col-start-2 row-start-2 lg:row-start-3 justify-self-center self-end lg:self-center"
+      />
+
       <div className="left">
         <motion.div
           animate={
@@ -101,20 +105,47 @@ const GameBoard = () => {
             />
             <div className="flex flex-col w-[max-content] gap-3 items-center bold text-lg md:text-3xl lg:text-5xl justify-self-center self-end bottom-20">
               <p>YOU {outcome.results.toUpperCase()}</p>
-              <motion.div
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.8 }}
-                className="text-md bold border border-black rounded-md p-2 cursor-pointer"
+              <Button
+                text="PLAY AGAIN"
+                customStyle="text-md bold p-2"
                 onClick={() => setOutcome(undefined)}
-              >
-                PLAY AGAIN
-              </motion.div>
+              />
             </div>
           </div>
         </>
       ) : (
         <GameOptions getResult={getResult} getRandomChoice={getRandomChoice} />
       )}
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <div className="text-center">
+          <h2 className="text-4xl font-semibold mb-8">
+            Scoreboard <p className="text-sm">*last 10 games</p>
+          </h2>
+          {scoreboard?.length ? (
+            <div className="grid grid-cols-2">
+              <div className="border-b border-r border-black font-bold py-2">
+                Player
+              </div>
+              <div className="border-b border-black font-bold py-2">
+                Computer
+              </div>
+
+              {scoreboard.slice(-10).map((score, index) => (
+                <React.Fragment key={index}>
+                  <div className="border-b border-black border-r py-2">
+                    {score.player}
+                  </div>
+                  <div className="border-b border-black py-2">
+                    {score.computer}
+                  </div>
+                </React.Fragment>
+              ))}
+            </div>
+          ) : (
+            <div className="text-3xl">No results yet.</div>
+          )}
+        </div>
+      </Modal>
     </div>
   );
 };

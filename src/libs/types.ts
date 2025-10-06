@@ -15,6 +15,6 @@ export interface BoardState {
   rounds: number;
   updateScore: (results: string) => void;
   fetchOptions: () => void,
-  increaseRound: () => void;
   resetGame: () => void;
+  scoreboard: {player:string, computer:string}[]
 }

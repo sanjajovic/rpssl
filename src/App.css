@@ -40,24 +40,27 @@
 }
 .center-text {
   position: absolute;
-  top: 50%;
+  top: 60%;
   display: flex;
   justify-content: center;
   align-items: baseline;
   font-size: 24px;
   font-weight: bold;
+  align-self: center;
+  justify-self: center;
 }
 .score-text {
   grid-column: 2;
   grid-row: 1;
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: center;
   font-weight: bold;
+  min-width: max-content;
 }
 
 @media only screen and (min-width: 321px) {
-  .body{
+  .body {
     background-color: #f1e6dd;
     border: 4px solid black;
   }
@@ -77,21 +80,6 @@
   .right {
     grid-column: 3;
     grid-row: 2;
-  }
-  .score-text {
-    position: absolute;
-    top: 10%;
-    width: max-content;
-  }
-  .center-text {
-    top: 60%;
-    right: 33%;
-  }
-}
-
-@media only screen and (min-width: 768px) and (max-width: 1024px) {
-  .center-text {
-    right: 37%;
   }
 }
 
@@ -117,13 +105,5 @@
   .right {
     grid-column: 3;
     grid-row: 3;
-  }
-  .center-text {
-    right: 37%;
-  }
-  .score-text {
-    align-self: center;
-    position: initial;
-    width: auto;
   }
 }
