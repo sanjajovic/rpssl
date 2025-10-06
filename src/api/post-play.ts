@@ -1,8 +1,10 @@
 import { client } from "./client";
+//TYPES
+import { IPlayResponse } from "./types";
 
 export const postPlay = async (player: number) => {
   try {
-    const result = await client({
+    const result: {data: IPlayResponse} = await client({
       url: "/play",
       data: { player },
       method: "POST",

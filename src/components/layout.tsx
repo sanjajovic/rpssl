@@ -13,30 +13,28 @@ import { fetchChoice } from "../api/get-choice";
 import { useBoard } from "../store/boardStore";
 //CONSTANTS
 import { reset, rules } from "../constants/motionStyles";
+//TYPES
+import { IChoiceResponse, IPlayResponse } from "../api/types";
 
 const GameBoard = () => {
   const { rounds, increaseRound, updateScore, users, resetGame } = useBoard();
-  const [outcome, setOutcome] = useState<{
-    results: "win" | "lose" | "tie";
-    player: number;
-    computer: number;
-  } | null>(null);
+  const [outcome, setOutcome] = useState<IPlayResponse | undefined>(undefined);
 
   const getRandomChoice = async () => {
-    setOutcome(null);
-    const result = await fetchChoice();
+    setOutcome(undefined);
+    const result: IChoiceResponse | undefined = await fetchChoice();
     if (result) {
-      getResult(result?.id);
+      getResult(result.id);
     }
   };
 
   const getResult = async (choiceId: number) => {
-    setOutcome(null);
+    setOutcome(undefined);
     try {
-      await postPlay(choiceId).then((res) => {
+      await postPlay(choiceId).then((res: IPlayResponse | undefined) => {
         increaseRound();
         setOutcome(res);
-        updateScore(res?.results);
+        updateScore(res?.results!);
       });
     } catch (e) {
       console.error(e);
@@ -46,17 +44,17 @@ const GameBoard = () => {
   return (
     <div className="game-container">
       <div className="score-text">
-        <p className="md:p-5 text-xl md:text-5xl">
+        <p className="md:p-5 text-3xl md:text-4xl lg:text-5xl">
           Round: {rounds} <br />
           Score: {users[1]?.score} - {users[0]?.score} 
         </p>
       </div>
       <motion.div
-        whileHover={{ scale: 1.2 }}
+        whileHover={{ scale: 1.1 }}
         style={reset}
         onClick={() => {
           resetGame();
-          setOutcome(null);
+          setOutcome(undefined);
         }}
       >
         Reset
@@ -65,7 +63,7 @@ const GameBoard = () => {
         href="https://www.samkass.com/theories/RPSSL.html"
         target="_blank"
         rel="noopener noreferrer"
-        whileHover={{ scale: 1.2 }}
+        whileHover={{ scale: 1.1 }}
         style={rules}
         className="text-md md:text-5xl"
       >
@@ -107,7 +105,7 @@ const GameBoard = () => {
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.8 }}
                 className="text-md bold border border-black rounded-md p-2 cursor-pointer"
-                onClick={() => setOutcome(null)}
+                onClick={() => setOutcome(undefined)}
               >
                 PLAY AGAIN
               </motion.div>

@@ -19,7 +19,7 @@ const GameOptions = ({ getResult, getRandomChoice }: IGameOptionsProps) => {
 
   return options.length ? (
     <div className="middle">
-      <p className="bold text-2xl xl:text-5xl">Pick a hand</p>
+      <p className="bold text-4xl lg:text-5xl">Pick a hand</p>
       <div className="flex gap-3 justify-center items-center p-2">
         <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
           <GiCardRandom

@@ -5,6 +5,7 @@ import { fetchChoices } from "../api/get-choices";
 import { MoveOptions } from "../constants/moveOptions";
 //TYPES
 import { BoardState, IOptionsData } from "../libs/types";
+import { IChoiceResponse } from "../api/types";
 
 export const useBoard = create<BoardState>((set, get) => ({
   users: [
@@ -33,10 +34,10 @@ export const useBoard = create<BoardState>((set, get) => ({
   fetchOptions: async () => {
     const state = get();
     if (state.options.length === 0) {
-      const result = await fetchChoices();
+      const result: IChoiceResponse[] | undefined = await fetchChoices();
       if (result) {
         const merged: IOptionsData[] = result.map(
-          (choice: { name: string; id: number }) => ({
+          (choice) => ({
             choiceId: choice.id,
             name: choice.name,
             Icon: MoveOptions[choice.id - 1],

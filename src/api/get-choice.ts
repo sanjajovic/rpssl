@@ -1,8 +1,9 @@
 import { client } from "./client";
+import { IChoiceResponse } from "./types";
 
 export const fetchChoice = async () => {
   try {
-    const result = await client({
+    const result: {data: IChoiceResponse} = await client({
       url: "/choice",
       method: "GET",
     });
