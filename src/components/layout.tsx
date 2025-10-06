@@ -150,7 +150,7 @@ const GameBoard = () => {
 
       <Modal isOpen={showAlert} onClose={() => setShowAlert(false)}>
         <div className="text-center">
-          <h2 className="text-3xl font-semibold mb-8">
+          <h2 className="font-semibold mb-8">
             Are you sure you want to delete all results?
           </h2>
           <div className="flex justify-end gap-3">
