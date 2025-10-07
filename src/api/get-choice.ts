@@ -1,4 +1,5 @@
 import { client } from "./client";
+//TYPES
 import { IChoiceResponse } from "./types";
 
 export const fetchChoice = async () => {

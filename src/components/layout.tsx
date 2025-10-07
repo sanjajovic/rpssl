@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaRedditAlien } from "react-icons/fa";
@@ -6,6 +7,8 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 //COMPONENTS
 import GameOptions from "./game-options";
 import Board from "./board";
+import Button from "./button";
+import Modal from "./modal";
 //DATA ACCESS
 import { postPlay } from "../api/post-play";
 import { fetchChoice } from "../api/get-choice";
@@ -13,9 +16,6 @@ import { fetchChoice } from "../api/get-choice";
 import { useBoard } from "../store/boardStore";
 //TYPES
 import { IChoiceResponse, IPlayResponse } from "../api/types";
-import Modal from "./modal";
-import React from "react";
-import Button from "./button";
 
 const GameBoard = () => {
   const { rounds, updateScore, users, resetGame, scoreboard } = useBoard();
@@ -46,7 +46,7 @@ const GameBoard = () => {
   return (
     <div className="game-container">
       <div className="score-text">
-        <p className="md:p-5 text-3xl md:text-4xl lg:text-5xl">
+        <p className="md:p-5 text-2xl md:text-4xl lg:text-5xl">
           Round: {rounds} <br />
           Score: {users[1]?.score} - {users[0]?.score}
         </p>
