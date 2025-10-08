@@ -5,14 +5,10 @@ import Animation from "./animation";
 import useWindowSize from "../hooks/useWindowSize";
 //CONSTANTS
 import { MoveOptions } from "../constants/moveOptions";
+//TYPES
+import { IPlayResponse } from "../api/types";
 
-interface IBoardProps {
-  results: "win" | "lose" | "tie";
-  player: number;
-  computer: number;
-}
-
-const Board = ({ results, player, computer }: IBoardProps) => {
+const Board = ({ results, player, computer }: IPlayResponse) => {
   const { width, height } = useWindowSize();
   const maxWidth = width >= 1140 ? 900 : width;
   return (

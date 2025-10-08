@@ -4,7 +4,7 @@ import { fetchChoices } from "../api/get-choices";
 //CONSTANTS
 import { MoveOptions } from "../constants/moveOptions";
 //TYPES
-import { BoardState, IOptionsData } from "../libs/types";
+import { BoardState, IOptionsData } from "./types";
 import { IChoiceResponse } from "../api/types";
 
 export const useBoard = create<BoardState>((set, get) => ({

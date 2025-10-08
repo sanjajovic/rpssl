@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 
 interface IButtonData {
   text: string;
-  onClick?: () => void;
   customStyle?: string;
+  onClick?: () => void;
   icon?: React.ReactNode;
   link?: string;
   disabled?: boolean;
